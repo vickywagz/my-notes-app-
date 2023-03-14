@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "522815828768",
+    "project_id": "mynotes-wagzyman-project",
+    "storage_bucket": "mynotes-wagzyman-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522815828768:android:b43f43c5eb0a441b095d45",
+        "android_client_info": {
+          "package_name": "com.wagzy.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522815828768-o1dusba4baag6okgq1svkdno658h2k65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWuBZzWmgdICnWyODJLFc2JIwBfGS48nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522815828768-o1dusba4baag6okgq1svkdno658h2k65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
