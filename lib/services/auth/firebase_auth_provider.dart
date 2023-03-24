@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:mynotes/firebase_options.dart';
-import 'package:mynotes/views/services/auth/auth_exceptions.dart';
-import 'package:mynotes/views/services/auth/auth_provider.dart';
-import 'package:mynotes/views/services/auth/auth_user.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_provider.dart';
+import 'package:mynotes/services/auth/auth_user.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -69,7 +68,7 @@ class FirebaseAuthProvider implements AuthProvider {
       if (e.code == 'user-not-found') {
         throw UserNotFoundAuthException();
       } else if (e.code == 'wrong-password') {
-        throw WrongPassworddAuthException();
+        throw WrongPasswordAuthException();
       } else {
         throw GenericAuthException();
       }
