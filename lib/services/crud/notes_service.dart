@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:mynotes/services/crud/crud_exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -11,12 +10,17 @@ class NotesService {
 
   List<DatabaseNote> _notes = [];
 
-  static final NotesService _shared = NotesService.sharedInstance();
-  NotesService.sharedInstance();
+  static final NotesService _shared = NotesService._sharedInstance();
+  NotesService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
   factory NotesService() => _shared;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
@@ -33,8 +37,8 @@ class NotesService {
   }
 
   Future<void> _cacheNotes() async {
-    final allNote = await getAllNotes();
-    _notes = allNote.toList();
+    final allNotes = await getAllNotes();
+    _notes = allNotes.toList();
     _notesStreamController.add(_notes);
   }
 
@@ -185,7 +189,10 @@ class NotesService {
       emailColumn: email.toLowerCase(),
     });
 
-    return DatabaseUser(id: userId, email: email);
+    return DatabaseUser(
+      id: userId,
+      email: email,
+    );
   }
 
   Future<void> deleteUser({required String email}) async {
@@ -257,8 +264,8 @@ class DatabaseUser {
   });
 
   DatabaseUser.fromRow(Map<String, Object?> map)
-      : id = map["idColumn"] as int,
-        email = map["emailColumn"] as String;
+      : id = map[idColumn] as int,
+        email = map[emailColumn] as String;
 
   @override
   String toString() => 'Person, ID = $id, email = $email';
@@ -284,9 +291,9 @@ class DatabaseNote {
   });
 
   DatabaseNote.fromRow(Map<String, Object?> map)
-      : id = map["idColumn"] as int,
-        userId = map["userIdColumn"] as int,
-        text = map["textColumn"] as String,
+      : id = map[idColumn] as int,
+        userId = map[userIdColumn] as int,
+        text = map[textColumn] as String,
         isSyncedWithCloud =
             (map[isSyncedWithCloudColumn] as int) == 1 ? true : false;
 
@@ -314,7 +321,7 @@ const createUserTable = ''' CREATE TABLE IF NOT EXISTS "user" (
         "email"	TEXT NOT NULL UNIQUE,
         PRIMARY KEY("id" AUTOINCREMENT)
       );''';
-const createNoteTable = '''CREATE TABLE IF NOT EXIST "note " (
+const createNoteTable = '''CREATE TABLE IF NOT EXISTS "note" (
         "id"	INTEGER NOT NULL,
         "user_id"	INTEGER NOT NULL,
         "text"	TEXT,
