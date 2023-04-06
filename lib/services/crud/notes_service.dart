@@ -273,6 +273,7 @@ class NotesService {
       await db.execute(createUserTable);
       // crete the note table
       await db.execute(createNoteTable);
+      await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
     }
@@ -347,10 +348,11 @@ const createUserTable = ''' CREATE TABLE IF NOT EXISTS "user" (
         PRIMARY KEY("id" AUTOINCREMENT)
       );''';
 const createNoteTable = '''CREATE TABLE IF NOT EXISTS "note" (
-        "id"	INTEGER NOT NULL,
-        "user_id"	INTEGER NOT NULL,
-        "text"	TEXT,
-        "is_synced_with_cloud"	INTEGER NOT NULL,
-        PRIMARY KEY("id" AUTOINCREMENT),
-        FOREIGN KEY("user_id") REFERENCES "user"("id")
+	"id"	INTEGER NOT NULL,
+	"user_id"	INTEGER NOT NULL,
+	"text"	TEXT,
+	"is_synced_with_cloud"	INTEGER NOT NULL,
+	FOREIGN KEY("user_id") REFERENCES "user"("id"),
+	PRIMARY KEY("id" AUTOINCREMENT)
+); 
       );''';
