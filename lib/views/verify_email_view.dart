@@ -34,12 +34,10 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             child: const Text('send email verification'),
           ),
           TextButton(
-            onPressed: () async {
-              () {
-                context.read<AuthBloc>().add(
-                      const AuthEventLogOut(),
-                    );
-              };
+            onPressed: () {
+              context.read<AuthBloc>().add(
+                    const AuthEventLogOut(),
+                  );
             },
             child: const Text('Restart'),
           )
